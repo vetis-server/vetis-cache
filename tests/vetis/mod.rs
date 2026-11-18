@@ -16,7 +16,7 @@ mod tokio {
     use tokio::fs::read_to_string;
     use vetis::{VetisServer, VetisTestResult, host::HostConfig, security::TlsConfig};
     use vetis_macros::status_pages;
-    use vetis_static::{StaticPathConfig, tokio::StaticPath};
+    use vetis_cache::{CacheHookConfig, tokio::CacheHook};
     use vetis_tokio::{ServerConfig, Vetis, host::Host};
 
     #[allow(unused)]
