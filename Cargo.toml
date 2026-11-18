@@ -24,7 +24,7 @@ minimime = "1.0.0"
 regex = "1.13.2"
 serde = { version = "1.0.228", features = ["derive"] }
 time = "0.3.55"
-tokio = { version = "1.53.1", optional = true }
+tokio = { version = "1.54.1", optional = true }
 typetag = "0.2.21"
 vetis = { path = "../vetis/vetis" }
 vetis-tokio = { path = "../vetis-tookio", optional = true }
@@ -40,4 +40,4 @@ deboa-tokio = { version = "0.1.4", default-features = false, features = [
 ] }
 serde_yaml_ng = "0.10.0"
 tokio = { version = "1.54.1", default-features = false, features = ["macros"] }
-vetis-macros = { version = "0.1.3-beta.6" }
+vetis-macros = { path = "../vetis/vetis-macros" }

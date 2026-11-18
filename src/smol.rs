@@ -45,7 +45,7 @@ impl Hook for CacheHook {
         if let Some(matcher) = &self.matcher { matcher.is_match(context) } else { true }
     }
 
-    fn phase(&self) -> &HookPhase {
+    fn phases(&self) -> HookPhases{
         &HookPhase::Rewrite
     }
 
