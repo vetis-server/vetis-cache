@@ -30,7 +30,7 @@ mod tokio {
 
     #[tokio::test]
     async fn test_from_file() -> VetisTestResult<()> {
-        let config_path = Path::new("files/vetis-static.yaml");
+        let config_path = Path::new("files/public/vetis-static.yaml");
         if config_path.exists() {
             let file = read_to_string(&config_path).await;
             if let Ok(file) = file {
@@ -114,8 +114,7 @@ mod tokio {
         let mut virtual_host = Host::new(host_config).await?;
         virtual_host.add_path(StaticPath::new(
             StaticPathConfig::builder()
-                .uri("/")
-                .directory("files")
+                .directory("files/public")
                 .index_files(vec!["index.html".into()])
                 .build()?,
         ));
@@ -176,15 +175,14 @@ mod tokio {
             .tls(security_config)
             .bind_addresses(&[(IpAddr::V4(Ipv4Addr::UNSPECIFIED), 9000)])
             .status_pages(status_pages! {
-               404 @ "files/404.html"
+               404 @ "files/public/404.html"
             })
             .build()?;
 
         let mut virtual_host = Host::new(host_config).await?;
         virtual_host.add_path(StaticPath::new(
             StaticPathConfig::builder()
-                .uri("/")
-                .directory("files")
+                .directory("files/public")
                 .build()?,
         ));
 
