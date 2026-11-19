@@ -1,23 +1,20 @@
-use http::{HeaderMap, HeaderValue};
-use hyper_body_utils::HttpBody;
-#[cfg(unix)]
-use std::os::unix::fs::MetadataExt;
-#[cfg(windows)]
-use std::os::windows::fs::MetadataExt;
-use std::path::PathBuf;
-use tokio::fs::File;
+use cel::Context;
 use vetis::{
-    Request, Response, VetisFutureResult, VetisResult,
-    errors::{ContentError, HostError, VetisError},
-    host::{HostContext, path::Path},
+    Request, Response, VetisFutureResult,
+    hook::{Hook, HookConfig as _, HookPhase, HookPhases},
+    matcher::Matcher,
 };
 
 use crate::CacheHookConfig;
 
 /// Cache hook
 pub struct CacheHook {
+    matcher: Option<Box<dyn Matcher>>,
     config: CacheHookConfig,
 }
+
+unsafe impl Send for CacheHook {}
+unsafe impl Sync for CacheHook {}
 
 impl CacheHook {
     /// Create a new cache hook with provided configuration
@@ -36,7 +33,7 @@ impl CacheHook {
             None
         };
 
-        EncodeHook { matcher, _config: config }
+        CacheHook { matcher, config: config }
     }
 }
 
@@ -45,8 +42,8 @@ impl Hook for CacheHook {
         if let Some(matcher) = &self.matcher { matcher.is_match(context) } else { true }
     }
 
-    fn phases(&self) -> HookPhases{
-        &HookPhase::Rewrite
+    fn phases(&self) -> HookPhases {
+        HookPhases::new(HookPhase::Rewrite)
     }
 
     fn matcher_mut(&mut self) -> Option<&mut Box<dyn Matcher>> {

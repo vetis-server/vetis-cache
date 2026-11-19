@@ -48,11 +48,6 @@ mod tokio {
 
                     let host = &config_clone.hosts()[0];
                     expect(host.hostname()).to_be(eq("localhost"));
-                    expect(host.paths().len()).to_be(eq(1));
-
-                    let static_path_config = &host.paths()[0];
-                    let static_path = static_path_config.boxed_path();
-                    expect(static_path.uri()).to_be(eq("/"));
 
                     let mut server = Vetis::from_config(config.server).await?;
                     server
@@ -112,10 +107,8 @@ mod tokio {
             .build()?;
 
         let mut virtual_host = Host::new(host_config).await?;
-        virtual_host.add_path(StaticPath::new(
-            StaticPathConfig::builder()
-                .directory("files/public")
-                .index_files(vec!["index.html".into()])
+        virtual_host.add_hook(CacheHook::new(
+            CacheHookConfig::builder()
                 .build()?,
         ));
 
@@ -180,9 +173,8 @@ mod tokio {
             .build()?;
 
         let mut virtual_host = Host::new(host_config).await?;
-        virtual_host.add_path(StaticPath::new(
-            StaticPathConfig::builder()
-                .directory("files/public")
+        virtual_host.add_hook(CacheHook::new(
+            CacheHookConfig::builder()
                 .build()?,
         ));
 

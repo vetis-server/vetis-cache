@@ -62,15 +62,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
 
 [[package]]
-name = "arcstr"
-version = "1.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "03918c3dbd7701a85c6b9887732e2921175f26c350b4563841d0958c21d57e6d"
-dependencies = [
- "serde",
-]
-
-[[package]]
 name = "arrayvec"
 version = "0.7.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -213,7 +204,7 @@ dependencies = [
  "proc-macro-crate",
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -496,7 +487,7 @@ checksum = "c6232dd377dcc64799954cbd3a9bb882e9cdc1308ccd87b1c098f1fb2eaf82a8"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -679,7 +670,7 @@ checksum = "9fb9654ba8355388abeb8dcb4fc62f511300867002afc858860463bdd9fe0c44"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -795,17 +786,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "h3-datagram"
-version = "0.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9d2c9f77921668673721ae40f17c729fc48b9e38a663858097cea547484fdf0f"
-dependencies = [
- "bytes",
- "h3",
- "pin-project-lite",
-]
-
-[[package]]
 name = "h3-quinn"
 version = "0.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -817,22 +797,6 @@ dependencies = [
  "quinn",
  "tokio",
  "tokio-util",
-]
-
-[[package]]
-name = "h3-webtransport"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2d91a50fd582a5d67b1f756fba3cd9c66367ff4f23e1017c882f664d63b350a7"
-dependencies = [
- "bytes",
- "futures-util",
- "h3",
- "h3-datagram",
- "http",
- "pin-project-lite",
- "tokio",
- "tracing",
 ]
 
 [[package]]
@@ -1348,20 +1312,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2ee67f1008b1ba2321834326597b8e186293b049a023cdef258527550b9935b4"
 
 [[package]]
-name = "patricia_tree"
-version = "0.10.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7fd106b8571932f2b8d961a296390c56f05d454ce95e2405f1d8703ca0119e8e"
-
-[[package]]
 name = "peekable"
 version = "0.6.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7c757617572d6398e2c967ce1600df280a75ada1ca076b1aeda1d5e43fccc35b"
 dependencies = [
- "futures-util",
+ "bytes",
  "pin-project-lite",
  "smallvec",
+ "tokio",
 ]
 
 [[package]]
@@ -1402,7 +1361,7 @@ dependencies = [
  "pest_meta",
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -1509,7 +1468,7 @@ checksum = "1c8d9ca532f185d5d4db7a7c9d51420b452168ea1c2b913953281bd6fe1fcbd0"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -1652,7 +1611,7 @@ checksum = "92ecd8964f8453721699a1ed72037b0db49ce2f5a5138486ee89bed6f67cdf3a"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -1730,7 +1689,7 @@ checksum = "1c25ef604ac7dd839d44d64648952ea23c97866f124ff671b0ed2cf3ad9bb06e"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -1897,7 +1856,7 @@ checksum = "e7a5d71263a5a7d47b41f6b3f06ba276f10cc18b0931f1799f710578e2309348"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -1960,6 +1919,12 @@ dependencies = [
  "thiserror",
  "xxhash-rust",
 ]
+
+[[package]]
+name = "simplematch"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d8449ffffce7c124d479d122a2d1a8e9bea4b5a0dd578aabbe722de623d6556e"
 
 [[package]]
 name = "siphasher"
@@ -2072,9 +2037,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "3.0.8"
+version = "3.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "01016da373cd8f7ef12624f796309f5c31ba8d646dd08856c02cd741d823c622"
+checksum = "4ae9ccbea3a7b0b09443036490c8f34a8b1b760fd345e5c0dae0aac718faea79"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2089,7 +2054,7 @@ checksum = "901704edd0dfe137f1987838ee4f259e4e063c31371bdb423f7ae38ec6f77f02"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -2115,7 +2080,7 @@ checksum = "fe5197923287db20a58125f0bc85c062f7f2c892de97b18c356f9efb14b28524"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -2188,7 +2153,7 @@ checksum = "78773a2a397f451582ce068015985c33193cf6dea8b74d2a639fe457b2f07b0e"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -2258,19 +2223,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "63e71662fa4b2a2c3a26f570f037eb95bb1f85397f3cd8076caed2f026a6d100"
 dependencies = [
  "pin-project-lite",
- "tracing-attributes",
  "tracing-core",
-]
-
-[[package]]
-name = "tracing-attributes"
-version = "0.1.31"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7490cfa5ec963746568740651ac6781f701c9c5ea257c58e057f3ba8cf69e8da"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.119",
 ]
 
 [[package]]
@@ -2321,7 +2274,7 @@ checksum = "f153acc4e99a5f2a5aefa09fb078be54e26271b2813f6041200b224c098d8328"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -2390,28 +2343,6 @@ checksum = "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a"
 
 [[package]]
 name = "vetis"
-version = "0.1.7-beta.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d0407c3e569e88a08a5136d54a5f7934d12b5034aab95395476a1d036856214"
-dependencies = [
- "arcstr",
- "crossfire",
- "http",
- "http-serde-ext",
- "hyper",
- "hyper-body-utils",
- "log",
- "logforth-core",
- "papaya",
- "patricia_tree",
- "serde",
- "thiserror",
- "time",
- "typetag",
-]
-
-[[package]]
-name = "vetis"
 version = "0.1.7"
 dependencies = [
  "cel",
@@ -2435,6 +2366,7 @@ name = "vetis-cache"
 version = "0.1.0"
 dependencies = [
  "caramelo",
+ "cel",
  "deboa",
  "deboa-tokio",
  "duration-str",
@@ -2447,36 +2379,45 @@ dependencies = [
  "time",
  "tokio",
  "typetag",
- "vetis 0.1.7",
+ "vetis",
  "vetis-macros",
  "vetis-tokio",
 ]
 
 [[package]]
 name = "vetis-macros"
-version = "0.1.3-beta.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ede0b050aa4f48d8c65453a8bdb83878c8fd469f22d500c81f384d2af1e1b472"
+version = "0.1.3"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
- "vetis 0.1.7-beta.6",
+ "syn 3.0.10",
+]
+
+[[package]]
+name = "vetis-matchers"
+version = "0.1.0"
+dependencies = [
+ "cel",
+ "compact_str",
+ "http",
+ "regex",
+ "serde",
+ "simplematch",
+ "typetag",
+ "vetis",
 ]
 
 [[package]]
 name = "vetis-tokio"
-version = "0.1.2-beta.8"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "17bee39ee2d9e245979928376126bb2ebc087803cbbd5d7798c61976b65a9d83"
+version = "0.1.2"
 dependencies = [
  "bytes",
+ "cel",
+ "compact_str",
  "crossfire",
- "futures-rustls",
  "futures-util",
  "h3",
  "h3-quinn",
- "h3-webtransport",
  "http",
  "http-body-util",
  "hyper",
@@ -2490,7 +2431,8 @@ dependencies = [
  "rustls",
  "tokio",
  "tokio-rustls",
- "vetis 0.1.7-beta.6",
+ "vetis",
+ "vetis-matchers",
 ]
 
 [[package]]
@@ -2549,7 +2491,7 @@ dependencies = [
  "bumpalo",
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
  "wasm-bindgen-shared",
 ]
 
@@ -2783,7 +2725,7 @@ checksum = "ec8ebde2db3681e8c9980cc27822030e68752690ddfa9473e739aeb4dbde6d71"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
  "synstructure",
 ]
 
@@ -2824,7 +2766,7 @@ checksum = "f75b4683f6c7f45248d4d64056a24298c6281e0993356d7d1b4a1a962ef10d4a"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
  "synstructure",
 ]
 
@@ -2864,7 +2806,7 @@ checksum = "34df6fc39dbd26ddc9c10e6a2984476e13acce22e64e4487636ef494369225da"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 3.0.8",
+ "syn 3.0.10",
 ]
 
 [[package]]

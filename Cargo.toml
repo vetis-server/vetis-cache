@@ -17,6 +17,7 @@ default = ["runtime-tokio"]
 runtime-tokio = ["dep:vetis-tokio", "dep:tokio"]
 
 [dependencies]
+cel = "0.16.0"
 duration-str = "0.21.0"
 http = "1.5.0"
 hyper-body-utils = "0.1.18"
@@ -27,7 +28,7 @@ time = "0.3.55"
 tokio = { version = "1.54.1", optional = true }
 typetag = "0.2.21"
 vetis = { path = "../vetis/vetis" }
-vetis-tokio = { path = "../vetis-tookio", optional = true }
+vetis-tokio = { path = "../vetis-tokio", optional = true }
 
 [dev-dependencies]
 caramelo = "0.1.5"

@@ -2,10 +2,7 @@
 #![deny(missing_docs)]
 use crate::tokio::CacheHook;
 use serde::{Deserialize, Serialize};
-use vetis::{
-    Str, VetisResult,
-    errors::{ConfigError, VetisError},
-};
+use vetis::{VetisHook, VetisResult, hook::HookConfig, matcher::MatcherConfig};
 
 #[cfg(feature = "runtime-tokio")]
 /// Tokio runtime support module
