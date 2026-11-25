@@ -15,9 +15,11 @@ mod tokio {
     };
     use tokio::fs::read_to_string;
     use vetis::{VetisServer, VetisTestResult, host::HostConfig, security::TlsConfig};
-    use vetis_macros::status_pages;
-    use vetis_cache::{CacheHookConfig, tokio::CacheHook};
-    use vetis_tokio::{ServerConfig, Vetis, host::Host};
+    use vetis_matchers::request::PathMatcherConfig;
+    use vetis_tokio::{
+        ServerConfig, Vetis,
+        hook::{HandlerHookConfig, handler_fn},
+    };
 
     #[allow(unused)]
     #[derive(Deserialize, Clone)]
@@ -30,7 +32,7 @@ mod tokio {
 
     #[tokio::test]
     async fn test_from_file() -> VetisTestResult<()> {
-        let config_path = Path::new("files/public/vetis-static.yaml");
+        let config_path = Path::new("files/public/vetis-cache.yaml");
         if config_path.exists() {
             let file = read_to_string(&config_path).await;
             if let Ok(file) = file {
@@ -92,7 +94,7 @@ mod tokio {
 
     #[tokio::test]
     async fn test_index() -> VetisTestResult<()> {
-        let security_config = TlsConfig::builder()
+        let tls_config = TlsConfig::builder()
             .ca_file(CA_CERT)
             .cert_file(SERVER_CERT)
             .key_file(SERVER_KEY)
@@ -100,21 +102,29 @@ mod tokio {
 
         let host_config = HostConfig::builder()
             .hostname("localhost")
-            .protos(&[Version::HTTP_11])
             .root_directory(".")
-            .tls(security_config)
-            .bind_addresses(&[(IpAddr::V4(Ipv4Addr::UNSPECIFIED), 9100)])
+            .tls(tls_config)
+            .add_proto(Version::HTTP_11)
+            .add_bind_address(Ipv4Addr::UNSPECIFIED, 9100)
+            .add_hook(
+                HandlerHookConfig::builder()
+                    .matcher(
+                        PathMatcherConfig::builder()
+                            .add_path("/hello*")
+                            .build()?,
+                    )
+                    .handler(handler_fn(|_request| async move {
+                        let response = vetis::Response::builder()
+                            .status(StatusCode::OK)
+                            .text("Hello from localhost");
+                        Ok(response)
+                    }))
+                    .build()?,
+            )
             .build()?;
 
-        let mut virtual_host = Host::new(host_config).await?;
-        virtual_host.add_hook(CacheHook::new(
-            CacheHookConfig::builder()
-                .build()?,
-        ));
-
         let mut server = Vetis::builder()
-            .add_host(virtual_host)
-            .await?
+            .add_host(host_config)
             .build();
 
         server
@@ -133,18 +143,12 @@ mod tokio {
 
         assert_eq!(request.status(), http::StatusCode::OK);
 
-        let expected = if cfg!(windows) {
-            "<html>\r\n<head>\r\n  <title>\r\n    Tested!\r\n  </title>\r\n</head>\r\n<body>\r\n  <p>\r\n    Tested!\r\n  </p>\r\n</body>\r\n</html>\r\n"
-        } else {
-            "<html>\n<head>\n  <title>\n    Tested!\n  </title>\n</head>\n<body>\n  <p>\n    Tested!\n  </p>\n</body>\n</html>\n"
-        };
-
         expect(
             request
                 .text()
                 .await?,
         )
-        .to_be(eq(expected.to_string()));
+        .to_be(eq("Hello from localhost"));
 
         server
             .stop()
@@ -155,7 +159,7 @@ mod tokio {
 
     #[tokio::test]
     async fn test_not_found() -> VetisTestResult<()> {
-        let security_config = TlsConfig::builder()
+        let tls_config = TlsConfig::builder()
             .ca_file(CA_CERT)
             .cert_file(SERVER_CERT)
             .key_file(SERVER_KEY)
@@ -163,24 +167,15 @@ mod tokio {
 
         let host_config = HostConfig::builder()
             .hostname("localhost")
-            .protos(&[Version::HTTP_11])
             .root_directory(".")
-            .tls(security_config)
-            .bind_addresses(&[(IpAddr::V4(Ipv4Addr::UNSPECIFIED), 9000)])
-            .status_pages(status_pages! {
-               404 @ "files/public/404.html"
-            })
+            .tls(tls_config)
+            .add_proto(Version::HTTP_11)
+            .add_bind_address(IpAddr::V4(Ipv4Addr::UNSPECIFIED), 9000)
+            .add_status_page(404, "files/public/404.html".into())
             .build()?;
 
-        let mut virtual_host = Host::new(host_config).await?;
-        virtual_host.add_hook(CacheHook::new(
-            CacheHookConfig::builder()
-                .build()?,
-        ));
-
         let mut server = Vetis::builder()
-            .add_host(virtual_host)
-            .await?
+            .add_host(host_config)
             .build();
 
         server

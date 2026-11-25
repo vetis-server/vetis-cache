@@ -17,9 +17,7 @@ default = ["runtime-tokio"]
 runtime-tokio = ["dep:vetis-tokio", "dep:tokio"]
 
 [dependencies]
-cel = "0.16.0"
 http = "1.5.0"
-hyper-body-utils = "0.1.18"
 serde = { version = "1.0.228", features = ["derive"] }
 tokio = { version = "1.54.1", optional = true }
 typetag = "0.2.21"
@@ -38,3 +36,4 @@ deboa-tokio = { version = "0.1.4", default-features = false, features = [
 serde_yaml_ng = "0.10.0"
 tokio = { version = "1.54.1", default-features = false, features = ["macros"] }
 vetis-macros = { path = "../vetis/vetis-macros" }
+vetis-matchers = { path = "../vetis-matchers" }
